@@ -190,11 +190,11 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+  -- Rose Pine theme
+    'rose-pine/neovim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'rose-pine'
     end,
   },
 
@@ -205,7 +205,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'rose-pine',
         component_separators = '|',
         section_separators = '',
       },
@@ -254,6 +254,18 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    'ThePrimeagen/vim-be-good'
+  },
+
+  {
+    'ThePrimeagen/harpoon'
+  },
+ -- {
+ --   'codota/tabnine-nvim'
+ -- },
+ --
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -272,6 +284,18 @@ require('lazy').setup({
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
+
+-- Numbers & stuff
+vim.o.relativenumber = true
+vim.o.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.wrap = false
+
+-- set the color colum 80 chars to the right
+vim.opt.colorcolumn = "90"
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -326,16 +350,52 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
+--local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+--vim.api.nvim_create_autocmd('TextYankPost', {
+--  callback = function()
+--    vim.highlight.on_yank()
+--  end,
+--  group = highlight_group,
+--  pattern = '*',
+--})
+--
+
+--  Highlight on yank--- The ThePrimeagen style
+local augroup = vim.api.nvim_create_augroup
+local ThePrimeagenGroup = augroup('ThePrimeagen', {})
+
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+function R(name)
+    require("plenary.reload").reload_module(name)
+end
+
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
 })
+
+autocmd({"BufWritePre"}, {
+    group = ThePrimeagenGroup,
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
+})
+
+
+-- attempt opaque background: It worked!
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -416,6 +476,67 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+
+
+-- [[ From remap.lua - The Primeagen's Keyremaps ]]
+
+-- Project view
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- split window vertically : Vex
+vim.keymap.set("n", "<leader>ve", vim.cmd.Vex)
+
+-- when highlighting a line, press shift + j or k
+-- and yoiu can move an entite line or lines up or down.
+-- Example: taking some lines of code and moving them into an if statement
+-- The lines auto indent when you are done moving them.
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+-- J takes the line below and appends it to your current line with a space
+-- And this one keeps your cursor in one place dispite movving other lines
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "J", "mzJ`z")
+-- The two below keeps the cursor in the middle when scrolling with ctrl + d & u
+-- Makes searching the file less disorienting.
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Make search terms stay in the middle when searching the file for characters, text, etc..
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+-- greatest remap ever
+-- Pasting highlighted text over a pre-selected highligted text
+-- Deletes highlighted word into the 'void' register and then paste it over.
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- next greatest remap ever : asbjornHaland
+-- leader y yanks text to the system clipboard enabling you to pate elsewhere
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+
+-- This is going to get me cancelled
+vim.keymap.set("i", "<C-c>", "<Esc>")
+
+vim.keymap.set("n", "Q", "<nop>")
+-- When using Tmux: ctrl + f and now fuzzy find in another terminal session
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
+-- Quick-fix navigation list
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+
+-- space + s opens a menu and begin replacing the word on which your cursor lies.
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Make the file executable without having to exit and chmoding it manually.
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- [[ End of ThePrimeagen's remaps ]]
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -563,19 +684,19 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+   clangd = {},
+   gopls = {},
+   pyright = {},
+   rust_analyzer = {},
+   tsserver = {},
+   html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
+       diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
