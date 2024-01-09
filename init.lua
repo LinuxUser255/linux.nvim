@@ -675,21 +675,21 @@ require('which-key').register({
 require('mason').setup()
 require('mason-lspconfig').setup()
 
--- Enable the following language servers
+-- Language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
---
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
+-- I've commented these out. Make sure you have the langs installed before uncommenting, 
+-- else you will receive several error messages when opening Neovim
 local servers = {
-   clangd = {},
-   gopls = {},
-   pyright = {},
-   rust_analyzer = {},
-   tsserver = {},
-   html = { filetypes = { 'html', 'twig', 'hbs'} },
+--  clangd = {},
+--  gopls = {},
+--  pyright = {},
+--  rust_analyzer = {},
+--  tsserver = {},
+--  html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
     Lua = {
