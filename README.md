@@ -1,6 +1,8 @@
-# kickstart.nvim
+# Kickstart.Nvim
 
-https://github.com/kdheepak/kickstart.nvim/assets/1813121/f3ff9a2b-c31f-44df-a4fa-8a0d7b17cf7b
+![myNeovim](https://github.com/LinuxUser255/linux.nvim/assets/46334926/27646174-e933-4c16-a04b-ce8241c60cd8)
+
+
 
 ### Introduction
 
