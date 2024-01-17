@@ -31,7 +31,12 @@ Distribution Alternatives:
 
 > **NOTE** 
 > [Backup](#FAQ) your previous configuration (if any exists)
-
+- Then clear out your current NeoVim configs
+```bash
+# To start with a clean slate, you will need to delete and remove your current/previous neovim files and dirs.
+rm -rf ~/.config/nvim
+ln -s $(pwd) ~/.config/nvim
+```
 Requirements:
 * Make sure to review the readmes of the plugins if you are experiencing errors. In particular:
   * [ripgrep](https://github.com/BurntSushi/ripgrep#installation) is required for multiple [telescope](https://github.com/nvim-telescope/telescope.nvim#suggested-dependencies) pickers.
