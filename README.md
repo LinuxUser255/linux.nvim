@@ -1,6 +1,6 @@
 # Kickstart.Nvim
 
-![myNeovim](https://github.com/LinuxUser255/linux.nvim/assets/46334926/27646174-e933-4c16-a04b-ce8241c60cd8)
+![myNeovim](https://github.com/LinuxUser255/linux.nvim/assets/46334926/e2575fcb-495e-40c3-b55f-1a8faa0b990d)
 
 ### Built With
 ![lua30](https://github.com/LinuxUser255/linux.nvim/assets/46334926/2d9c69d1-9c65-4e53-ade7-9bd785290526)
