@@ -2,36 +2,42 @@
 
 ![myNeovim](https://github.com/LinuxUser255/linux.nvim/assets/46334926/e2575fcb-495e-40c3-b55f-1a8faa0b990d)
 
-### Built With
+</br>
+
+## [Built with:](https://lua.org)
+
 ![lua30](https://github.com/LinuxUser255/linux.nvim/assets/46334926/2d9c69d1-9c65-4e53-ade7-9bd785290526)
-https://www.lua.org/
+
+**https://lua.org**
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-### Introduction
+## Intro what is Kickstart.Nvim?
 
-This is a starting point for Neovim that is:
+Kickstart.Nvim is a starting point for Neovim that is:
 
-* Small
+* Small & lightweight
 * Single-file (with examples of moving to multi-file)
-* Documented
-* Modular
+* Very well Documented
+* Scaleable
+* This repo is plug N' play. Just copy-paste the git clone command below in your terminal and you are up and running.
 
-### Changes I made:
+## Changes made to this fork:
 - Changed the theme from onedark to rose-pine, and gave it a transparent background
 - Added relative line numbers
-- Added some remaps and code from ThePrimegean's init.lua
-- Added Harpoon, VimBeGood & Tabnine
-- Check the source code, the readme and the docs, this thing is pretty cool and fun.
+- Added some remaps and code from [ThePrimegean's init.lua](https://github.com/ThePrimeagen/init.lua) makes using [netrw](https://neovim.io/doc/user/pi_netrw.html) Blazingly Fast!
+- Added [Harpoon](https://github.com/ThePrimeagen/harpoon), [VimBeGood](https://github.com/ThePrimeagen/vim-be-good) & [Tabnine](https://github.com/codota/TabNine): 
+- Check the source code, the README and the docs, this thing is pretty cool and fun.
   
-This repo is meant to be used by **YOU** to begin your Neovim journey; remove the things you don't use and add what you miss.
+- What is the point of Kickstart.Nvim? It is meant to be used by **YOU** to begin your Neovim journey; remove the things you don't use and add what you want.
 
 Kickstart.nvim targets *only* the latest ['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim. If you are experiencing issues, please make sure you have the latest versions.
 
 Distribution Alternatives:
 - [LazyVim](https://www.lazyvim.org/): A delightful distribution maintained by @folke (the author of lazy.nvim, the package manager used here)
 
-### Installation
+## Installation
 
 > **NOTE** 
 > [Backup](#FAQ) your previous configuration (if any exists)
@@ -89,7 +95,7 @@ If you would prefer to hide this step and run the plugin sync from the command l
 nvim --headless "+Lazy! sync" +qa
 ```
 
-### Recommended Steps
+## How to make this your own: Recommended Steps
 
 [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo (so that you have your own copy that you can modify) and then installing you can install to your machine using the methods above.
 
@@ -107,7 +113,7 @@ nvim --headless "+Lazy! sync" +qa
 
 You can also merge updates/changes from the repo back into your fork, to keep up-to-date with any changes for the default configuration.
 
-#### Example: Adding an autopairs plugin
+### Example: Adding an autopairs plugin
 
 In the file: `lua/custom/plugins/autopairs.lua`, add:
 
@@ -167,7 +173,7 @@ Pull-requests are welcome. The goal of this repo is not to create a Neovim confi
 
 Each PR, especially those which increase the line count, should have a description as to why the PR is necessary.
 
-### FAQ
+## FAQ
 
 * What should I do if I already have a pre-existing neovim configuration?
   * You should back it up, then delete all files associated with it.
@@ -195,7 +201,7 @@ Each PR, especially those which increase the line count, should have a descripti
     * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
     * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
 
-### Windows Installation
+## Windows Installation
 
 Installation may require installing build tools, and updating the run command for `telescope-fzf-native`
 
