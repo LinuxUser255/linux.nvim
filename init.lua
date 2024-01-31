@@ -1,45 +1,14 @@
 --[[
 
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
+Kickstart Neovim
 
 Kickstart Guide:
+Check  out TJ's original init.lua for all comments explaining the code and instructions:
+https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+I've left just the essentials.
 
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
-
--- Set <space> as the leader key
 -- See `:help mapleader`
+-- Set <space> as the leader key
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -62,10 +31,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
 -- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
@@ -83,8 +48,8 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+       { 'williamboman/mason.nvim', config = true },
+       'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -165,6 +130,8 @@ require('lazy').setup({
           gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'reset git hunk' })
         -- normal mode
+        -- Project view
+        map("n", "<leader>pv", vim.cmd.Ex)
         map('n', '<leader>hs', gs.stage_hunk, { desc = 'git stage hunk' })
         map('n', '<leader>hr', gs.reset_hunk, { desc = 'git reset hunk' })
         map('n', '<leader>hS', gs.stage_buffer, { desc = 'git Stage buffer' })
@@ -190,7 +157,7 @@ require('lazy').setup({
   },
 
   {
-  -- Rose Pine theme
+    -- Rose Pine theme
     'rose-pine/neovim',
     priority = 1000,
     config = function()
@@ -226,8 +193,8 @@ require('lazy').setup({
 
   -- Fuzzy Finder (files, lsp, etc)
   {
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    -- branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -265,19 +232,10 @@ require('lazy').setup({
  --   'codota/tabnine-nvim'
  -- },
  --
-
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
+-- See TJ's init.lua for extra info on plugins
   -- require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
+  -- For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 }, {})
 
@@ -293,6 +251,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
+vim.o.scrolloff = 8
 
 -- set the color colum 80 chars to the right
 vim.opt.colorcolumn = "90"
@@ -350,7 +309,8 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- [[ Highlight on yank ] -- The ThePrimeagen style
+
+--  Flashy Highlight on yank
 local augroup = vim.api.nvim_create_augroup
 local ThePrimeagenGroup = augroup('ThePrimeagen', {})
 
@@ -464,15 +424,15 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
 
--- [[ From remap.lua - The Primeagen's Keyremaps ]]
-
+-- [[ For use in netrw ]]
 -- Project view
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- split window vertically : Vex
 vim.keymap.set("n", "<leader>ve", vim.cmd.Vex)
 
+--[ ! This remap is a lot of fun! ]
 -- when highlighting a line, press shift + j or k
--- and yoiu can move an entite line or lines up or down.
+-- and you can move an entite line or lines up or down.
 -- Example: taking some lines of code and moving them into an if statement
 -- The lines auto indent when you are done moving them.
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -498,13 +458,10 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- leader y yanks text to the system clipboard enabling you to pate elsewhere
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
-
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
-
--- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
-
 vim.keymap.set("n", "Q", "<nop>")
+
 -- When using Tmux: ctrl + f and now fuzzy find in another terminal session
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
@@ -515,14 +472,11 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
--- space + s opens a menu and begin replacing the word on which your cursor lies.
+-- ! Extremely useful: space + s opens a menu and begin replacing the word on which your cursor lies.
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Make the file executable without having to exit and chmoding it manually.
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
--- [[ End of ThePrimeagen's remaps ]]
-
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -534,6 +488,12 @@ vim.defer_fn(function()
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
+        -- Install languages synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+    -- List of parsers to ignore installing
+    ignore_install = {},
+    -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
+    modules = {},
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -599,7 +559,6 @@ local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
-  --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
@@ -661,21 +620,15 @@ require('which-key').register({
 require('mason').setup()
 require('mason-lspconfig').setup()
 
--- Language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property 'filetypes' to the map in question.
--- I've commented these out. Make sure you have the langs installed before uncommenting, 
--- else you will receive several error messages when opening Neovim
+-- Enabling  language servers
 local servers = {
---  clangd = {},
---  gopls = {},
---  pyright = {},
---  rust_analyzer = {},
---  tsserver = {},
---  html = { filetypes = { 'html', 'twig', 'hbs'} },
+   clangd = {},
+   gopls = {},
+   pyright = {},
+   rust_analyzer = {},
+   tsserver = {},
+   html = { filetypes = { 'html', 'twig', 'hbs'} },
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -762,6 +715,5 @@ cmp.setup {
     { name = 'path' },
   },
 }
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
