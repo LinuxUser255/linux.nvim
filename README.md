@@ -16,7 +16,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Intro what is Kickstart.Nvim?
+## Intro: what is Kickstart.Nvim?
 
 Kickstart.Nvim is a starting point for Neovim that is:
 
