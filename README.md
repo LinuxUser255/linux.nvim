@@ -5,10 +5,13 @@
 </br>
 
 ## [Built with:](https://lua.org)
+![lua-logo](https://github.com/LinuxUser255/linux.nvim/assets/46334926/5e54f0b8-ceab-44da-ba32-0b898390c191) ![neovim-logo-github](https://github.com/LinuxUser255/linux.nvim/assets/46334926/4790164b-b06d-4460-a282-33e4469a6ad9)
 
-![lua30](https://github.com/LinuxUser255/linux.nvim/assets/46334926/2d9c69d1-9c65-4e53-ade7-9bd785290526)
 
-**https://lua.org**
+
+**https://www.lua.org/**
+</br>
+**https://github.com/neovim**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
