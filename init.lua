@@ -1,21 +1,29 @@
 --[[
 
 Kickstart Neovim
+Lua guide:   https://learnxinyminutes.com/docs/lua/
+Cmd:         you can explore or search through
+`:help lua-guide`
+& online at: https://neovim.io/doc/user/lua-guide.html
 
 Kickstart Guide:
-Check  out TJ's original init.lua for all comments explaining the code and instructions:
+Check  out TJ's original init.lua for all comments explaining the code
+and instructions:
 https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+
 I've left just the essentials.
 
 -- See `:help mapleader`
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.mapleader = ' '
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
+vim.g.maplocalleader = ' '
+vim.g.mapleader = ' '
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
