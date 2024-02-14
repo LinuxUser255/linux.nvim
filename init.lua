@@ -460,6 +460,11 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- greatest remap ever
 -- Pasting highlighted text over a pre-selected highligted text
 -- Deletes highlighted word into the 'void' register and then paste it over.
+-- How to use: 
+-- higlight text to store in register: shift V
+-- yank the text: y
+-- go to the line to paste over and hihlight it: shift V
+-- then do <leader>p 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
