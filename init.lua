@@ -545,7 +545,6 @@ require('which-key').register({
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
-require'lspconfig'.texlab.setup{}
 -- Enabling  language servers
 local servers = {
    clangd = {},
@@ -553,8 +552,6 @@ local servers = {
    pyright = {},
    rust_analyzer = {},
    tsserver = {},
-   textlsp = {},
-   -- javascript
    html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
