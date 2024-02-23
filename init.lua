@@ -1,23 +1,5 @@
 --[[
-
 Kickstart Neovim
-Lua guide:   https://learnxinyminutes.com/docs/lua/
-Cmd:         you can explore or search through
-`:help lua-guide`
-& online at: https://neovim.io/doc/user/lua-guide.html
-
-Kickstart Guide:
-Check  out TJ's original init.lua for all comments explaining the code
-and instructions:
-https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
-
-I've left just the essentials.
-
--- See `:help mapleader`
--- Set <space> as the leader key
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.maplocalleader = ' '
-vim.g.mapleader = ' '
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -37,10 +19,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure plugins ]]
--- NOTE: Here is where you install your plugins.
+-- [[ Configure plugins install plugins here]]
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -57,7 +37,7 @@ require('lazy').setup({
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
        { 'williamboman/mason.nvim', config = true },
-       'williamboman/mason-lspconfig.nvim',
+         'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -75,10 +55,14 @@ require('lazy').setup({
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
 
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',       -- Optional
+      'hrsh7th/cmp-path',         -- Optional
+      'saadparwaiz1/cmp_luasnip', -- Optional
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -170,6 +154,7 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'rose-pine'
+      require('mason-lspconfig').setup()
     end,
   },
 
@@ -205,13 +190,8 @@ require('lazy').setup({
     -- branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
       {
         'nvim-telescope/telescope-fzf-native.nvim',
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
         build = 'make',
         cond = function()
           return vim.fn.executable 'make' == 1
@@ -228,30 +208,15 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-
-  {
-    'ThePrimeagen/vim-be-good'
-  },
-
-  {
-    'ThePrimeagen/harpoon'
-  },
- -- {
- --   'codota/tabnine-nvim'
- -- },
- --
+ -- Extra editing & workflow utilities
+   'ThePrimeagen/vim-be-good' ,
+   'ThePrimeagen/harpoon' ,
+   'codota/tabnine-nvim' ,
 -- See TJ's init.lua for extra info on plugins
-  -- require 'kickstart.plugins.autoformat',
-  -- require 'kickstart.plugins.debug',
-  -- For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+
 }, {})
 
 -- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Numbers & stuff
 vim.o.relativenumber = true
 vim.o.tabstop = 4
 vim.opt.softtabstop = 4
@@ -260,51 +225,22 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.o.scrolloff = 8
-
--- set the color colum 80 chars to the right
 vim.opt.colorcolumn = "90"
-
--- Set highlight on search
 vim.o.hlsearch = false
-
--- Make line numbers default
 vim.wo.number = true
-
--- Enable mouse mode
 vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
-
--- Enable break indent
 vim.o.breakindent = true
-
--- Save undo history
 vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
--- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
-
--- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
-
--- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
--- [[ Basic Keymaps ]]
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
+-- [[ Basic Keymaps See `:help vim.keymap.set()` ]]
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
@@ -317,8 +253,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
-
---  Flashy Highlight on yank
+-- ThePrimeagen's Flashy Highlight on yank
 local augroup = vim.api.nvim_create_augroup
 local ThePrimeagenGroup = augroup('ThePrimeagen', {})
 
@@ -346,13 +281,11 @@ autocmd({"BufWritePre"}, {
     command = [[%s/\s\+$//e]],
 })
 
-
 -- attempt opaque background: It worked!
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 -- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -402,8 +335,6 @@ local function live_grep_git_root()
 end
 
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
-
--- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
@@ -431,18 +362,12 @@ vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by 
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
-
--- [[ For use in netrw ]]
--- Project view
+-- [[ NetRW cmds Project view & vertical window split ]]
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
--- split window vertically : Vex
 vim.keymap.set("n", "<leader>ve", vim.cmd.Vex)
 
---[ ! This remap is a lot of fun! ]
+--[ ! Move an entite line or lines up or down. ]]
 -- when highlighting a line, press shift + j or k
--- and you can move an entite line or lines up or down.
--- Example: taking some lines of code and moving them into an if statement
--- The lines auto indent when you are done moving them.
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 -- J takes the line below and appends it to your current line with a space
 -- And this one keeps your cursor in one place dispite movving other lines
@@ -457,18 +382,12 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- greatest remap ever
 -- Pasting highlighted text over a pre-selected highligted text
 -- Deletes highlighted word into the 'void' register and then paste it over.
--- How to use: 
--- higlight text to store in register: shift V
--- yank the text: y
--- go to the line to paste over and hihlight it: shift V
--- then do <leader>p 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
--- leader y yanks text to the system clipboard enabling you to paste elsewhere
+-- leader y yanks text to the system clipboard enabling you to pate elsewhere
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
@@ -491,23 +410,20 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- Make the file executable without having to exit and chmoding it manually.
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
+-- [[ Configure Treesitter  See `:help nvim-treesitter` ]]
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
+    -- Autoinstall languages that are not installed.
+    auto_install = true,
         -- Install languages synchronously (only applied to `ensure_installed`)
     sync_install = false,
     -- List of parsers to ignore installing
     ignore_install = {},
     -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
     modules = {},
-
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
@@ -566,13 +482,10 @@ vim.defer_fn(function()
   }
 end, 0)
 
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
+-- [[ Configure LSP  This function gets run when an LSP connects to a particular buffer. ]]
 local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  -- In this case, we create a function that lets us more easily define mappings specific
+  -- to define small helper and utility functions ie DRY
+  -- Here is a function making it easier to define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
     if desc then
@@ -632,15 +545,18 @@ require('which-key').register({
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
-
+require'lspconfig'.texlab.setup{}
 -- Enabling  language servers
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+   clangd = {},
+   gopls = {},
+   pyright = {},
+   rust_analyzer = {},
+   tsserver = {},
+   textlsp = {},
+   -- javascript
+   html = { filetypes = { 'html', 'twig', 'hbs'} },
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
