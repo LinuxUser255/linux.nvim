@@ -48,7 +48,7 @@ Distribution Alternatives:
 ```bash
 # To start with a clean slate, you will need to delete and remove your current/previous neovim files and dirs.
 rm -rf ~/.config/nvim
-ln -s $(pwd) ~/.config/nvim
+rm -rf ~/.local/share/nvim
 ```
 Requirements:
 * Make sure to review the readmes of the plugins if you are experiencing errors. In particular:
