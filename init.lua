@@ -213,9 +213,6 @@ require('lazy').setup({
  -- Extra editing & workflow utilities
    'ThePrimeagen/vim-be-good' ,
    'ThePrimeagen/harpoon' ,
--- Tabnine AI Auto complete
--- Installation details
--- https://github.com/codota/tabnine-nvim
    'codota/tabnine-nvim' ,
 -- See TJ's init.lua for extra info on plugins
 
@@ -550,17 +547,15 @@ require('which-key').register({
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
---[[ Enabling  language servers ]]
--- Uncomment the ones you want to use
+-- Enabling  language servers
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} 
-},
-[
+   clangd = {},
+   gopls = {},
+   pyright = {},
+   rust_analyzer = {},
+   tsserver = {},
+   html = { filetypes = { 'html', 'twig', 'hbs'} },
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -597,8 +592,6 @@ mason_lspconfig.setup_handlers {
 }
 
 -- [[ Activate TabNine ]]
--- Installation details
--- https://github.com/codota/tabnine-nvim
 require('tabnine').setup({
   disable_auto_comment=true,
   accept_keymap="<Tab>",
